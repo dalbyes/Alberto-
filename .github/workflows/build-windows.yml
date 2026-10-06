@@ -13,7 +13,7 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -40,3 +40,17 @@ jobs:
           name: TED_Calzature-windows
           path: dist/TED_Calzature.exe
           retention-days: 90
+
+      - name: Pubblica l'eseguibile come Release scaricabile senza login
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: windows-build
+          name: "TED Calzature (Windows) — ultima build"
+          body: >
+            Eseguibile Windows generato automaticamente dal commit
+            ${{ github.sha }}. Scarica TED_Calzature.exe qui sotto e lancialo
+            con doppio click (non serve Python installato).
+          files: dist/TED_Calzature.exe
+          make_latest: true
