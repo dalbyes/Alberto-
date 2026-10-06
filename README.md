@@ -25,7 +25,31 @@ degli appalti pubblici, relativi a:
 4. Genera un report (`data/report.md`) con conteggi per categoria/paese/ente
    aggiudicatore e le prossime scadenze.
 
-## Installazione
+## Versione Windows (.exe) — nessun Python richiesto
+
+C'è un'interfaccia grafica semplice (`gui.py`: campi per giorni/paesi/modalità,
+pulsanti "Cerca su TED" e "Genera report") pensata per essere distribuita
+come eseguibile standalone.
+
+**Opzione 1 — scaricare l'eseguibile già compilato (consigliata):**
+ad ogni push il workflow GitHub Actions `.github/workflows/build-windows.yml`
+compila automaticamente `TED_Calzature.exe` su una macchina Windows reale.
+Per scaricarlo: schede *Actions* del repository → ultima esecuzione di
+"Build Windows executable" → sezione *Artifacts* → `TED_Calzature-windows`
+(contiene il file .exe). Nessuna installazione di Python necessaria.
+
+**Opzione 2 — compilarlo tu stesso su un PC Windows:**
+
+```
+build_windows.bat
+```
+
+(richiede Python 3.10+ installato una tantum da python.org; lo script crea
+un ambiente virtuale, installa le dipendenze e PyInstaller, e genera
+`dist\TED_Calzature.exe`). Una volta compilato, l'.exe funziona anche senza
+Python installato: puoi copiarlo e lanciarlo con un doppio click.
+
+## Installazione (uso da riga di comando / sviluppo)
 
 ```bash
 python3 -m venv venv
