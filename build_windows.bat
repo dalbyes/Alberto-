@@ -15,9 +15,10 @@ pip install --upgrade pip
 pip install -r requirements.txt
 pip install pyinstaller
 
-echo Compilo l'eseguibile...
-pyinstaller --onefile --windowed --name TED_Calzature gui.py
+echo Compilo l'eseguibile (onedir, senza UPX: meno falsi positivi antivirus)...
+pyinstaller --onedir --noupx --windowed --name TED_Calzature gui.py
 
 echo.
-echo Fatto. Trovi l'eseguibile in dist\TED_Calzature.exe
+echo Fatto. Trovi l'eseguibile in dist\TED_Calzature\TED_Calzature.exe
+echo (tieni l'intera cartella TED_Calzature insieme, non copiare solo l'exe)
 pause

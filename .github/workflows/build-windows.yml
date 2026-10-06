@@ -31,17 +31,21 @@ jobs:
           pip install -r requirements.txt
           pip install pyinstaller
 
-      - name: Compila l'eseguibile
-        run: pyinstaller --onefile --windowed --name TED_Calzature gui.py
+      - name: Compila l'eseguibile (onedir, senza UPX — meno falsi positivi antivirus)
+        run: pyinstaller --onedir --noupx --windowed --name TED_Calzature gui.py
 
-      - name: Pubblica l'eseguibile come artifact
+      - name: Crea lo zip della cartella compilata
+        shell: pwsh
+        run: Compress-Archive -Path dist/TED_Calzature/* -DestinationPath TED_Calzature-windows.zip
+
+      - name: Pubblica lo zip come artifact
         uses: actions/upload-artifact@v4
         with:
           name: TED_Calzature-windows
-          path: dist/TED_Calzature.exe
+          path: TED_Calzature-windows.zip
           retention-days: 90
 
-      - name: Pubblica l'eseguibile come Release scaricabile senza login
+      - name: Pubblica lo zip come Release scaricabile senza login
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -49,8 +53,10 @@ jobs:
           tag_name: windows-build
           name: "TED Calzature (Windows) — ultima build"
           body: >
-            Eseguibile Windows generato automaticamente dal commit
-            ${{ github.sha }}. Scarica TED_Calzature.exe qui sotto e lancialo
-            con doppio click (non serve Python installato).
-          files: dist/TED_Calzature.exe
+            Build Windows generata automaticamente dal commit ${{ github.sha }}.
+            Scarica TED_Calzature-windows.zip, estrailo in una cartella e
+            lancia TED_Calzature.exe dentro di essa (non serve Python
+            installato). Eseguibile non firmato digitalmente: se l'antivirus
+            lo segnala, vedi le note nel README del repository.
+          files: TED_Calzature-windows.zip
           make_latest: true

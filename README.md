@@ -31,12 +31,17 @@ C'è un'interfaccia grafica semplice (`gui.py`: campi per giorni/paesi/modalità
 pulsanti "Cerca su TED" e "Genera report") pensata per essere distribuita
 come eseguibile standalone.
 
-**Opzione 1 — scaricare l'eseguibile già compilato (consigliata):**
+**Opzione 1 — scaricare lo zip già compilato (consigliata):**
 ad ogni push il workflow GitHub Actions `.github/workflows/build-windows.yml`
-compila automaticamente `TED_Calzature.exe` su una macchina Windows reale.
-Per scaricarlo: schede *Actions* del repository → ultima esecuzione di
-"Build Windows executable" → sezione *Artifacts* → `TED_Calzature-windows`
-(contiene il file .exe). Nessuna installazione di Python necessaria.
+compila automaticamente `TED_Calzature-windows.zip` su una macchina Windows
+reale e lo pubblica come Release, scaricabile senza login da:
+
+https://github.com/dalbyes/Alberto-/releases/tag/windows-build
+
+Estrai lo zip in una cartella qualsiasi e lancia `TED_Calzature.exe`
+**dentro** quella cartella (serve l'intera cartella, non solo l'exe: le
+librerie necessarie stanno lì a fianco). Nessuna installazione di Python
+necessaria.
 
 **Opzione 2 — compilarlo tu stesso su un PC Windows:**
 
@@ -46,8 +51,27 @@ build_windows.bat
 
 (richiede Python 3.10+ installato una tantum da python.org; lo script crea
 un ambiente virtuale, installa le dipendenze e PyInstaller, e genera
-`dist\TED_Calzature.exe`). Una volta compilato, l'.exe funziona anche senza
-Python installato: puoi copiarlo e lanciarlo con un doppio click.
+`dist\TED_Calzature\TED_Calzature.exe`).
+
+### Attenzione: avviso di Windows / antivirus al primo avvio
+
+L'eseguibile **non è firmato digitalmente** (servirebbe un certificato di
+code-signing a pagamento), quindi è normale che Windows SmartScreen o
+l'antivirus mostrino un avviso la prima volta — è un falso positivo comune
+per i programmi compilati con PyInstaller, non una minaccia reale (il
+codice è tutto visibile in questo repository). La build usa già
+`--onedir --noupx` per ridurre al minimo questi falsi positivi rispetto a
+un singolo file compresso. Se capita:
+
+- **SmartScreen** ("Windows ha protetto il PC"): clicca "Ulteriori
+  informazioni" → "Esegui comunque".
+- **Windows Defender** blocca/elimina il file: Sicurezza di Windows →
+  Protezione da virus e minacce → Cronologia protezione → consenti/ripristina
+  `TED_Calzature.exe`, oppure aggiungi un'esclusione per la cartella estratta.
+- Se vuoi evitare del tutto questo tipo di avviso, l'alternativa più
+  affidabile è installare Python una volta e usare la versione da riga di
+  comando/sorgente (sezione "Installazione" più sotto) invece dell'eseguibile
+  compilato.
 
 ## Installazione (uso da riga di comando / sviluppo)
 
